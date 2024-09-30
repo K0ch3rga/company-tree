@@ -21,6 +21,14 @@ export type Department = Pick<
   'name' | 'department_name' | 'parent_department' | 'lft'
 >
 
+// fields of Department type in array form. Object must be filled with properties
+export const departmentKeys = Object.keys({
+  department_name: undefined,
+  lft: undefined,
+  name: undefined,
+  parent_department: undefined
+} as Record<keyof Department, undefined>) as (keyof RecursiveDepartment)[]
+
 export type RecursiveDepartment = Department & { children?: RecursiveDepartment[] }
 
 export const RecursifyDepartmentList = (departments: Department[]): RecursiveDepartment[] => {

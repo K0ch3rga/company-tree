@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref, useTemplateRef } from 'vue'
-import type { RecursiveDepartment } from '../department'
+import type { RecursiveDepartment } from '.'
 import { createPaths } from './model'
 
 const props = defineProps<{ data: RecursiveDepartment }>()
@@ -25,8 +25,11 @@ onUpdated(() => emits('resize'))
 </script>
 <template>
   <div class="wrapper">
-    <div class="data" @click="hide" v-show="!hidden" ref="parent">
-      {{ props.data.name }}
+    <div ref="parent">
+      <q-card flat class="data text-h3" @click="hide" v-show="!hidden">
+        {{ props.data.name }}
+        <slot name="employees" />
+      </q-card>
     </div>
     <svg view-box="0 0 100 100" v-show="!hidden">
       <path fill="none" stroke="lightgray" :d="path" v-for="path in paths" :key="path" />
@@ -36,7 +39,7 @@ onUpdated(() => emits('resize'))
         <RecursiveBlock :data="node" @resize="onShouldResize" />
       </div>
     </div>
-    <div v-show="hidden" class="hidden" @click="show">
+    <div v-show="hidden" class="hidden-dot" @click="show">
       {{ (props.data.children?.length ?? 0) + 1 }}
     </div>
   </div>
@@ -62,7 +65,7 @@ onUpdated(() => emits('resize'))
   display: flex;
   flex-direction: column;
 }
-.hidden {
+.hidden-dot {
   border-radius: 24px;
   border: solid 1px grey;
   min-width: 30px;

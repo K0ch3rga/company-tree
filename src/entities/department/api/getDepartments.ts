@@ -1,15 +1,15 @@
+import { backend } from '@/shared/api'
+
 import type { Department } from '../Department'
 
-const url = 'http://10.249.15.68:8000/'
-const api_key = '97a2b7629f76124'
-const api_secret = '143bbb963f024a7'
-
-export const getDepartments = (): Promise<Department[]> =>
-  fetch(`${url}api/resource/Department?fields=["*"]`, {
-    headers: { Authorization: `token ${api_key}:${api_secret}` }
-  })
-    .then((r) => (r.ok ? r : Promise.reject(r.status)))
-    .then((r) => r.json())
-    .then((r) => r.data)
+export const getDepartments = async (
+  fields: string[] = ['*'],
+  filters: string[][] = [['Department', 'disabled', '=', '0']]
+): Promise<Department[]> =>
+  backend
+    .get(
+      `/api/resource/Department?fields=[${fields.map((v) => `"${v}"`).join(',')}]&filters=[${filters?.map((a) => `[${a.map((v) => `"${v}"`).join(',')}]`).join(',')}]`
+    )
+    .then((r) => r.data.data)
     .then((r) => r as Department[])
     .catch((e) => Promise.reject(e))

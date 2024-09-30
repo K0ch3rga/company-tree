@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import RecursiveBlock from '@/entities/dataBlock/RecursiveBlock.vue'
+import RecursiveBlock from '@/entities/department/RecursiveBlock.vue'
 import { getDepartments } from '@/entities/department'
-import { RecursifyDepartmentList, type RecursiveDepartment } from '@/entities/department/Department'
+import {
+  departmentKeys,
+  RecursifyDepartmentList,
+  type RecursiveDepartment
+} from '@/entities/department/Department'
 import { onBeforeMount, ref } from 'vue'
+import { getEmployees } from '@/entities/employee/api'
 
 const recursiveDepartment = ref<RecursiveDepartment | null>()
 
 onBeforeMount(() => {
-  getDepartments()
+  getDepartments(departmentKeys)
     .then((departments) => (recursiveDepartment.value = RecursifyDepartmentList(departments)[0]))
+    .catch((e) => console.log(e))
+
+  getEmployees()
+    .then((e) => console.log(e))
     .catch((e) => console.log(e))
 })
 </script>
