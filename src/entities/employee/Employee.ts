@@ -16,7 +16,7 @@ type EmployeeFullDto = {
   date_of_birth: Date
   salutation: string
   date_of_joining: Date
-  image: null
+  image?: string
   status: string
   user_id: string
   create_user_permission: number
@@ -76,5 +76,15 @@ type EmployeeFullDto = {
 
 export type Employee = Pick<
   EmployeeFullDto,
-  'name' | 'designation' | 'department' | 'employee_number'
+  'first_name' | 'last_name' | 'designation' | 'department' | 'employee_number' | 'image'
 >
+
+// fields of Employee type in array form. Object must be filled with properties
+export const employeeKeys = Object.keys({
+  first_name: undefined,
+  last_name: undefined,
+  department: undefined,
+  designation: undefined,
+  employee_number: undefined,
+  image: undefined
+} as Record<keyof Employee, undefined>) as (keyof Employee)[]

@@ -21,6 +21,9 @@ export type Department = Pick<
   'name' | 'department_name' | 'parent_department' | 'lft'
 >
 
+export type DepartmentNode = Department & DepartmentNodeOptions
+type DepartmentNodeOptions = { expanded: boolean }
+
 // fields of Department type in array form. Object must be filled with properties
 export const departmentKeys = Object.keys({
   department_name: undefined,
