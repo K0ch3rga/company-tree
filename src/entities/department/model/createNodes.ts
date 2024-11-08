@@ -34,7 +34,8 @@ export const createNodes = (departments: Department[]): [Node<DepartmentNode>[],
       const prevWidth = treeWidthMap.get(children[index - 1]) ?? 0
       const curWidth = treeWidthMap.get(currentChild) ?? 150
       const prevPos = childrenPositionMap.get(department)?.[index - 1] ?? -width / 2
-      const position = prevPos + prevWidth / 2 + curWidth / 2 + 20 * index
+      const gap = index == 0 ? 0 : 20
+      const position = prevPos + prevWidth / 2 + curWidth / 2 + gap
       childrenPositionMap.set(
         department,
         (childrenPositionMap.get(department) ?? []).concat(position)
