@@ -8,7 +8,7 @@ export const getDepartments = async (
 ): Promise<Department[]> =>
   backend
     .get(
-      `/api/resource/Department?fields=[${fields.map((v) => `"${v}"`).join(',')}]&filters=[${filters?.map((a) => `[${a.map((v) => `"${v}"`).join(',')}]`).join(',')}]`
+      `/api/resource/Department?fields=[${fields.map((v) => `"${v}"`).join(',')}]&filters=[${filters?.map((a) => `[${a.map((v) => `"${v}"`).join(',')}]`).join(',')}]&limit=100`
     )
     .then((r) => r.data.data)
     .then((r) => r as Department[])
