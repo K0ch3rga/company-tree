@@ -7,16 +7,18 @@ const { getOutgoers } = useVueFlow()
 const children = getOutgoers(props.data.name)
 </script>
 <template>
-  <q-card flat>
-    <div class="text-h3 title">
-      {{ props.data.department_name }}
-    </div>
-    <q-card-section>
-      <slot name="employee" />
-    </q-card-section>
-  </q-card>
   <Handle type="target" class="target" :position="Position.Top" />
   <Handle v-if="children.length > 0" type="source" :position="Position.Bottom" />
+  <div class="wrapper">
+    <q-card flat>
+      <div class="text-h3 title">
+        {{ props.data.department_name }}
+      </div>
+      <q-card-section>
+        <slot name="employee" />
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
 <style scoped>
 .q-card {
@@ -30,5 +32,10 @@ const children = getOutgoers(props.data.name)
   text-overflow: ellipsis;
   text-wrap: nowrap;
   overflow: hidden;
+}
+.wrapper {
+  height: 58px;
+  overflow-y: visible;
+  cursor: pointer;
 }
 </style>
