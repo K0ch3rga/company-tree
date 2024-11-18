@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { Handle, Position, useVueFlow } from '@vue-flow/core'
+import { Handle, Position } from '@vue-flow/core'
 import type { Department } from './Department'
 
 const props = defineProps<{ data: Department }>()
-const { getOutgoers } = useVueFlow()
-const children = getOutgoers(props.data.name)
 </script>
 <template>
+  <Handle type="target" class="target" :position="Position.Left" />
   <q-card flat>
     <div class="text-h3 title">
       {{ props.data.department_name }}
@@ -15,8 +14,6 @@ const children = getOutgoers(props.data.name)
       <slot name="employee" />
     </q-card-section>
   </q-card>
-  <Handle type="target" class="target" :position="Position.Top" />
-  <Handle v-if="children.length > 0" type="source" :position="Position.Bottom" />
 </template>
 <style scoped>
 .q-card {

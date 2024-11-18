@@ -9,6 +9,7 @@ import { DepartmentCard } from '@/entities/department'
 import type { Employee } from '@/entities/employee'
 import EmployeeList from '@/entities/employee/EmployeeList.vue'
 import { employeeKeys } from '@/entities/employee/Employee'
+import ChildlessDepartmentCard from '@/entities/department/ChildlessDepartmentCard.vue'
 
 const { onNodeClick } = useVueFlow()
 
@@ -43,6 +44,17 @@ onNodeClick((e: NodeMouseEvent) => {
             />
           </template>
         </DepartmentCard>
+      </template>
+      <template #node-stacked_department="data">
+        <ChildlessDepartmentCard :data="data.data">
+          <template #employee>
+            <div v-if="!data.data.expanded"></div>
+            <EmployeeList
+              v-else
+              :employees="employees.filter((v) => v.department == data.data.name)"
+            />
+          </template>
+        </ChildlessDepartmentCard>
       </template>
     </VueFlow>
   </div>

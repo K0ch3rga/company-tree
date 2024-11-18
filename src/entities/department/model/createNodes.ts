@@ -2,7 +2,8 @@ import type { Edge, Node } from '@vue-flow/core'
 import type { Department, DepartmentNode } from '..'
 
 const nodeWidth = 150
-const nodeHeight = 100
+const nodeHeight = 104
+const gapWidth = 40
 
 export const createNodes = (departments: Department[]): [Node<DepartmentNode>[], Edge[]] => {
   const departmentMap = new Map<string, Department>()
@@ -19,6 +20,7 @@ export const createNodes = (departments: Department[]): [Node<DepartmentNode>[],
 
   // count children without children for making them in column
   const childlessChildrenMap = new Map<string, string[]>()
+  const childlessSet = new Set<string>()
   childrenMap.forEach((children, department) =>
     children.forEach((child) => {
       const grandChildren = childrenMap.get(child)
@@ -27,6 +29,7 @@ export const createNodes = (departments: Department[]): [Node<DepartmentNode>[],
           department,
           (childlessChildrenMap.get(department) ?? []).concat(child)
         )
+        childlessSet.add(child)
       }
     })
   )
@@ -35,13 +38,13 @@ export const createNodes = (departments: Department[]): [Node<DepartmentNode>[],
   const treeWidthMap = new Map<string, number>()
   const getSetWidth = (node: string): number => {
     const childless = childlessChildrenMap.get(node)
-    const initialShift = childless && childless.length > 0 ? nodeWidth : -20
+    const initialShift = childless && childless.length > 0 ? nodeWidth : -gapWidth
     const coordinates =
       childrenMap
         .get(node)
         ?.reduce(
           (prev: number, val: string) =>
-            childless?.includes(val) ? prev : getSetWidth(val) + prev + 20,
+            childless?.includes(val) ? prev : getSetWidth(val) + prev + gapWidth,
           initialShift
         ) ?? nodeWidth
     treeWidthMap.set(node, coordinates)
@@ -62,7 +65,7 @@ export const createNodes = (departments: Department[]): [Node<DepartmentNode>[],
       const prevPos =
         (stackIndex ? undefined : childrenPositionMap.get(department)?.[index - 1]?.[0]) ??
         -width / 2
-      const gap = index == 0 || stackIndex ? 0 : 20
+      const gap = index == 0 || stackIndex ? 0 : gapWidth
       const position = [
         prevPos + prevWidth / 2 + curWidth / 2 + gap,
         (stackIndex ?? 0) * nodeHeight
@@ -91,7 +94,12 @@ export const createNodes = (departments: Department[]): [Node<DepartmentNode>[],
       parentNode: dep.parent_department,
       data: { ...dep, expanded: false },
       label: dep.department_name,
-      type: 'department'
+      type:
+        childlessSet.has(dep.name) &&
+        (childlessChildrenMap.get(dep.parent_department)?.length ?? 0) > 1
+          ? 'stacked_department'
+          : 'department',
+      targetPosition: childlessSet.has(dep.name) ? 'left' : 'top'
     } as Node
   })
 
