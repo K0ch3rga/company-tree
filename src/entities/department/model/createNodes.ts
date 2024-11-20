@@ -1,11 +1,11 @@
-import type { Edge, Node } from '@vue-flow/core'
+import type { Edge } from '@vue-flow/core'
 import type { Department, DepartmentNode } from '..'
 
 const nodeWidth = 150
 const nodeHeight = 104
 const gapWidth = 40
 
-export const createNodes = (departments: Department[]): [Node<DepartmentNode>[], Edge[]] => {
+export const createNodes = (departments: Department[]): [DepartmentNode[], Edge[]] => {
   const departmentMap = new Map<string, Department>()
   const childrenMap = new Map<string, string[]>()
   // counting all departments
@@ -86,13 +86,13 @@ export const createNodes = (departments: Department[]): [Node<DepartmentNode>[],
   )
 
   // creating nodes
-  const nodes: Node<DepartmentNode>[] = Array.from(departmentMap.values()).map((dep) => {
+  const nodes: DepartmentNode[] = Array.from(departmentMap.values()).map((dep) => {
     const position = childrenPositionMap.get(dep.parent_department)?.shift()
     return {
       id: dep.name,
       position: { x: position?.[0] ?? 0, y: nodeHeight + (position?.[1] ?? 0) },
       parentNode: dep.parent_department,
-      data: { ...dep, expanded: false },
+      data: { ...dep, expanded: false, isHidden: false },
       label: dep.department_name,
       type:
         childlessSet.has(dep.name) &&
@@ -100,7 +100,7 @@ export const createNodes = (departments: Department[]): [Node<DepartmentNode>[],
           ? 'stacked_department'
           : 'department',
       targetPosition: childlessSet.has(dep.name) ? 'left' : 'top'
-    } as Node
+    } as DepartmentNode
   })
 
   // creating edges

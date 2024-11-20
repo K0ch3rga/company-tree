@@ -2,9 +2,11 @@
 import { Handle, Position, useVueFlow } from '@vue-flow/core'
 import type { Department } from './Department'
 
-const props = defineProps<{ data: Department }>()
+const props = defineProps<{ data: Department; childrenHidden: boolean }>()
+const emits = defineEmits<{ changeVisibility: [string, boolean] }>()
 const { getOutgoers } = useVueFlow()
 const children = getOutgoers(props.data.name)
+const showHideChildren = () => emits('changeVisibility', props.data.name, !props.childrenHidden)
 </script>
 <template>
   <Handle type="target" class="target" :position="Position.Top" />
@@ -17,6 +19,11 @@ const children = getOutgoers(props.data.name)
       <q-card-section>
         <slot name="employee" />
       </q-card-section>
+      <q-btn
+        class="expand btn"
+        @click.prevent.stop="showHideChildren"
+        :icon="childrenHidden ? 'sys_s_unfold_more' : 'sys_s_unfold_less'"
+      />
     </q-card>
   </div>
 </template>

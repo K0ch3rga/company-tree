@@ -1,3 +1,5 @@
+import { type Node } from '@vue-flow/core'
+
 type DepartmentFullDto = {
   name: string
   owner: string
@@ -21,8 +23,14 @@ export type Department = Pick<
   'name' | 'department_name' | 'parent_department' | 'lft'
 >
 
-export type DepartmentNode = Department & DepartmentNodeOptions
-type DepartmentNodeOptions = { expanded: boolean }
+export type DepartmentNode = Node<
+  DepartmentNodeData,
+  DepartmentNodeEvents,
+  'stacked_department' | 'department'
+>
+export type DepartmentNodeData = Department & DepartmentNodeOptions
+type DepartmentNodeOptions = { expanded: boolean; isHidden: boolean }
+export type DepartmentNodeEvents = {}
 
 // fields of Department type in array form. Object must be filled with properties
 export const departmentKeys = Object.keys({
