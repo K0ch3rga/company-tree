@@ -2,7 +2,7 @@ import type { Edge } from '@vue-flow/core'
 import type { Department, DepartmentNode } from '..'
 
 const nodeWidth = 150
-const nodeHeight = 104
+const nodeHeight = 100
 const gapWidth = 40
 
 export const createNodes = (departments: Department[]): [DepartmentNode[], Edge[]] => {

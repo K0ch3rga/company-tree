@@ -13,25 +13,34 @@ const showHideChildren = () => emits('changeVisibility', props.data.name, !props
   <Handle v-if="children.length > 0" type="source" :position="Position.Bottom" />
   <div class="wrapper">
     <q-card flat>
-      <div class="text-h3 title">
-        {{ props.data.department_name }}
+      <div class="card-header">
+        <div class="title text-h3">
+          {{ props.data.department_name }}
+        </div>
+        <q-btn
+          flat
+          :ripple="false"
+          class="expand-btn q-pa-xs"
+          @click.prevent.stop="showHideChildren"
+          :icon="childrenHidden ? 'sys_s_unfold_more' : 'sys_s_unfold_less'"
+        />
       </div>
-      <q-card-section>
+      <q-card-section class="q-pa-sm">
         <slot name="employee" />
       </q-card-section>
-      <q-btn
-        class="expand btn"
-        @click.prevent.stop="showHideChildren"
-        :icon="childrenHidden ? 'sys_s_unfold_more' : 'sys_s_unfold_less'"
-      />
     </q-card>
   </div>
 </template>
 <style scoped>
 .q-card {
-  border: solid 1px lightgray;
+  border: solid 1px #b7bfd1;
   border-radius: 8px;
   width: 150px;
+}
+.card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .title {
   padding: 8px 10px;
@@ -41,8 +50,15 @@ const showHideChildren = () => emits('changeVisibility', props.data.name, !props
   overflow: hidden;
 }
 .wrapper {
-  height: 58px;
+  height: 54px;
   overflow-y: visible;
   cursor: pointer;
+}
+.expand-btn {
+  border-radius: 8px;
+  overflow-x: hidden;
+}
+.expand-btn:deep(.q-icon) {
+  justify-content: end;
 }
 </style>

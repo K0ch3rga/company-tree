@@ -49,7 +49,7 @@ const onChangeVisibility = (department: string, hide: boolean) => {
 </script>
 <template>
   <div onresize="updateCenter">
-    <VueFlow :nodes="nodes" :edges="edges" :default-viewport="{ zoom: 1, x: xCenter, y: 0 }">
+    <VueFlow :nodes="nodes" :edges="edges" :default-viewport="{ zoom: 1, x: xCenter, y: -40 }">
       <template
         #node-department="data: NodeProps<DepartmentNodeData, DepartmentNodeEvents, string>"
       >
