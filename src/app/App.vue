@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import RecursiveView from '@/pages/recursiveView/RecursiveView.vue'
+import { TreeView } from '@/pages/treeView'
 </script>
 
 <template>
-  <RecursiveView />
+  <TreeView />
 </template>
 
 <style scoped>

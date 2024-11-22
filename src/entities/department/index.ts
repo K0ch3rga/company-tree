@@ -3,7 +3,11 @@ export {
   type Department,
   type DepartmentNode,
   type RecursiveDepartment,
+  type DepartmentNodeData,
+  type DepartmentNodeEvents,
   departmentKeys
 } from './Department'
 import DepartmentCard from './DepartmentCard.vue'
-export { DepartmentCard }
+import ChildlessDepartmentCard from './ChildlessDepartmentCard.vue'
+
+export { DepartmentCard, ChildlessDepartmentCard }

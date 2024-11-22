@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { getDepartments } from '@/entities/department'
-import { departmentKeys, type DepartmentNode } from '@/entities/department'
 import { onBeforeMount, ref } from 'vue'
-import { getEmployees } from '@/entities/employee/api'
 import { VueFlow, type Edge, useVueFlow, type NodeMouseEvent, type NodeProps } from '@vue-flow/core'
-import { createNodes, treeWidthMap } from '@/entities/department/model/createNodes'
-import { DepartmentCard } from '@/entities/department'
-import type { Employee } from '@/entities/employee'
-import EmployeeList from '@/entities/employee/EmployeeList.vue'
-import { employeeKeys } from '@/entities/employee/Employee'
-import ChildlessDepartmentCard from '@/entities/department/ChildlessDepartmentCard.vue'
-import type { DepartmentNodeData, DepartmentNodeEvents } from '@/entities/department/Department'
+import {
+  getDepartments,
+  departmentKeys,
+  type DepartmentNode,
+  type DepartmentNodeData,
+  type DepartmentNodeEvents,
+  ChildlessDepartmentCard,
+  DepartmentCard
+} from '@/entities/department'
+import { getEmployees, type Employee, EmployeeList, employeeKeys } from '@/entities/employee'
+import { createNodes, treeWidthMap } from './model'
 
 const { getOutgoers, updateNode, findNode, onNodeClick } = useVueFlow()
 
@@ -45,6 +46,7 @@ const onChangeVisibility = (department: string, hide: boolean) => {
     getOutgoers(branch).forEach((n) => recursive(n.id))
   }
   getOutgoers(department).forEach((n) => recursive(n.id))
+  // shift positions
   if (node?.parentNode) {
     const hiddenWidth = (treeWidthMap.get(department) ?? 150) - 150
     let shiftDirection = hide ? 1 : -1
@@ -60,7 +62,12 @@ const onChangeVisibility = (department: string, hide: boolean) => {
 </script>
 <template>
   <div onresize="updateCenter">
-    <VueFlow :nodes="nodes" :edges="edges" :default-viewport="{ zoom: 1, x: xCenter, y: -40 }">
+    <VueFlow
+      :nodes="nodes"
+      :edges="edges"
+      :default-viewport="{ zoom: 1, x: xCenter, y: -40 }"
+      :nodes-draggable="false"
+    >
       <template
         #node-department="data: NodeProps<DepartmentNodeData, DepartmentNodeEvents, string>"
       >
