@@ -18,6 +18,7 @@ const showHideChildren = () => emits('changeVisibility', props.data.name, !props
           {{ props.data.department_name }}
         </div>
         <q-btn
+          v-if="children.length > 0"
           flat
           :ripple="false"
           class="expand-btn q-pa-xs"

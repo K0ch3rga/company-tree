@@ -5,6 +5,8 @@ const nodeWidth = 150
 const nodeHeight = 100
 const gapWidth = 40
 
+export const treeWidthMap = new Map<string, number>()
+
 export const createNodes = (departments: Department[]): [DepartmentNode[], Edge[]] => {
   const departmentMap = new Map<string, Department>()
   const childrenMap = new Map<string, string[]>()
@@ -35,7 +37,6 @@ export const createNodes = (departments: Department[]): [DepartmentNode[], Edge[
   )
 
   // counting cumulative width
-  const treeWidthMap = new Map<string, number>()
   const getSetWidth = (node: string): number => {
     const childless = childlessChildrenMap.get(node)
     const initialShift = childless && childless.length > 0 ? nodeWidth : -gapWidth
