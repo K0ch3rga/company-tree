@@ -1,10 +1,11 @@
 # people-tree
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Установка
+```sh
+npm install
+```
+#### Добавить api ключи в [файл](https://github.com/K0ch3rga/company-tree/blob/master/src/shared/api/axios.ts)
+Api ключи генерируются настройках пользователя erp, раздел подключения
 
 ## Type Support for `.vue` Imports in TS
 
@@ -14,11 +15,6 @@ TypeScript cannot handle type information for `.vue` imports by default, so we r
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
-
-```sh
-npm install
-```
 
 ### Compile and Hot-Reload for Development
 
